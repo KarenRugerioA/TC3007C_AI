@@ -82,6 +82,9 @@ def transform_df_model(df, target_column_name, original_name_dataset):
     if y in categorical_columns:
         categorical_columns.remove(y)
 
+    # Exporting the encoder
+    dump(categorical_columns, f'../joblibs/{original_name_dataset}/etl/categorical_columns.joblib')
+
     # Creating a label encoder object
     encoder = OrdinalEncoder().fit(df[categorical_columns])
     
