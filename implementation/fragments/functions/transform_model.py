@@ -83,7 +83,7 @@ def transform_df_model(df, target_column_name, original_name_dataset):
         categorical_columns.remove(y)
 
     # Exporting the encoder
-    dump(categorical_columns, f'../joblibs/{original_name_dataset}/etl/categorical_columns.joblib')
+    dump(categorical_columns, f'./fragments/joblibs/{original_name_dataset}/etl/categorical_columns.joblib')
 
     # Creating a label encoder object
     encoder = OrdinalEncoder().fit(df[categorical_columns])
@@ -92,7 +92,7 @@ def transform_df_model(df, target_column_name, original_name_dataset):
     categorical_columns_encoded = encoder.transform(df[categorical_columns])
 
     # Exporting the encoder
-    dump(encoder, f'../joblibs/{original_name_dataset}/etl/encoder.joblib')
+    dump(encoder, f'./fragments/joblibs/{original_name_dataset}/etl/encoder.joblib')
 
     # Subsituting the numerical categorical columns in the dataset
     df[categorical_columns] = categorical_columns_encoded
@@ -101,7 +101,7 @@ def transform_df_model(df, target_column_name, original_name_dataset):
     imp_mean = impute.IterativeImputer()
     
     # Exporting the encoder
-    dump(imp_mean, f'../joblibs/{original_name_dataset}/etl/imputation.joblib')
+    dump(imp_mean, f'./fragments/joblibs/{original_name_dataset}/etl/imputation.joblib')
 
     # Imputing the missing values of the dataset
     imputed_data = imp_mean.fit_transform(df.drop([y], axis=1))
@@ -144,7 +144,7 @@ def transform_df_model(df, target_column_name, original_name_dataset):
     df_mean_std = df_mean_std.drop(['count', 'min', '25%', '50%', '75%', 'max'], axis = 0)
 
     # Exporting the data for the standardization
-    dump(df_mean_std, f'../joblibs/{original_name_dataset}/etl/mean_std.joblib')
+    dump(df_mean_std, f'./fragments/joblibs/{original_name_dataset}/etl/mean_std.joblib')
 
     # Calculating the z-score
     z_score = df.copy()
@@ -171,7 +171,7 @@ def transform_df_model(df, target_column_name, original_name_dataset):
     df_data = df.drop(['index'], axis=1, inplace=True)
 
     # Exporting the column names to drop
-    dump(drop_column_names, f'../joblibs/{original_name_dataset}/etl/drop_columns_names.joblib')
+    dump(drop_column_names, f'./fragments/joblibs/{original_name_dataset}/etl/drop_columns_names.joblib')
 
     # Shuffling the dataset to avoid any pre-order
     df = df.sample(frac = 1).reset_index(drop = True)
@@ -198,11 +198,11 @@ def transform_df_model(df, target_column_name, original_name_dataset):
     y_train = pd.DataFrame(y_train)
 
     # Exporting the test and train of the dataframes
-    x_test.to_csv(f'../../../data/{original_name_dataset}/test/x_test.csv', index=False)
-    y_test.to_csv(f'../../../data/{original_name_dataset}/test/y_test.csv', index=False)
+    x_test.to_csv(f'../data/{original_name_dataset}/test/x_test.csv', index=False)
+    y_test.to_csv(f'../data/{original_name_dataset}/test/y_test.csv', index=False)
 
-    x_train.to_csv(f'../../../data/{original_name_dataset}/train/x_train.csv', index=False)
-    y_train.to_csv(f'../../../data/{original_name_dataset}/train/y_train.csv', index=False)
+    x_train.to_csv(f'../data/{original_name_dataset}/train/x_train.csv', index=False)
+    y_train.to_csv(f'../data/{original_name_dataset}/train/y_train.csv', index=False)
 
-    train.to_csv(f'../../../data/{original_name_dataset}/original_train.csv', index=False)
-    df.to_csv(f'../../../data/{original_name_dataset}/full_transformated_data.csv', index=False)
+    train.to_csv(f'../data/{original_name_dataset}/original_train.csv', index=False)
+    df.to_csv(f'../data/{original_name_dataset}/full_transformed_data.csv', index=False)
