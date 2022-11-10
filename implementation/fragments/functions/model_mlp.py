@@ -33,9 +33,6 @@ def train_mlp(target_column_name, original_name_dataset):
     y_pred_prob = classifier.predict_proba(x_test)
     y_pred = classifier.predict(x_test)
 
-    #Getting the accuracy of the model
-    # print(classifier.score(x_test, y_test))
-
     #Creating a confusion matrix to help determinate accuracy wtih classification model
     def accuracy(confusion_matrix):
         diagonal_sum = confusion_matrix.trace()
@@ -48,10 +45,12 @@ def train_mlp(target_column_name, original_name_dataset):
     #Printing the accuracy
     acc = round(accuracy(cm),2)
     percentage = "{:.0%}".format(acc)
-    print(f"Accuracy of Model: {percentage}")
+    model_accuracy = (f"Accuracy of Model: {percentage}")
+    print(model_accuracy)
 
     # Confussion Matrix
-    print(pd.DataFrame(cm))
+    confussion_matrix = pd.DataFrame(cm)
+    print(confussion_matrix)
 
     # K-Fold Cross-Validation
     kf = KFold(n_splits=3)
@@ -98,6 +97,7 @@ def train_mlp(target_column_name, original_name_dataset):
         plt.ylabel(y_label, fontsize=14)
         plt.legend()
         plt.grid(True)
+        plt.savefig(f'./fragments/joblibs/{original_name_dataset}/model/k_cross_plot.png')
         plt.show()
 
     mlp_results = cross_validation(classifier, x_train, y_train)
@@ -111,3 +111,6 @@ def train_mlp(target_column_name, original_name_dataset):
                 mlp_results["Validation Accuracy scores"])
 
     dump(classifier, f"./fragments/joblibs/{original_name_dataset}/model/classification-model.joblib")
+
+    # Returning the results of the training model
+    return model_accuracy, confussion_matrix, mlp_results
