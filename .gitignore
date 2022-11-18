@@ -9,3 +9,5 @@
 *.xls
 **/__pycache__/
 __pycache__/
+# General
+.DS_Store
