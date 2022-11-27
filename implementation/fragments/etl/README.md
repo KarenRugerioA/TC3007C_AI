@@ -1,5 +1,7 @@
 # **Preparación de los datos**
 
+---
+
 ## **Extracción**
 
 Los datos fueron extraídos de la plataforma Kaggle, del set de datos **[telecom_churn_me.csv](https://www.kaggle.com/datasets/mark18vi/telecom-churn-data?resource=download)**. Este conjunto de datos fue seleccionado por nuestro socio formador `NAATIK | AI Solutions`.
