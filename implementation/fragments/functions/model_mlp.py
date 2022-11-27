@@ -14,7 +14,7 @@ from sklearn.model_selection import cross_validate
 def train_mlp(target_column_name, original_name_dataset):
 
     # Obtaining the train and test dataset
-    train = pd.read_csv(f'../data/{original_name_dataset}/original_train.csv')
+    train = pd.read_csv(f'../data/{original_name_dataset}/train/original_train.csv')
     x_test = pd.read_csv(f'../data/{original_name_dataset}/test/x_test.csv')
     y_test = pd.read_csv(f'../data/{original_name_dataset}/test/y_test.csv')
 
@@ -23,8 +23,7 @@ def train_mlp(target_column_name, original_name_dataset):
     y_train = pd.DataFrame(train[target_column_name])
 
     #Initializing the MLPClassifier hyperparameters
-    N_EPOCHS = 100
-    classifier = MLPClassifier(hidden_layer_sizes=(50,50), max_iter=N_EPOCHS,activation = 'logistic',solver='adam',random_state=1)
+    classifier = MLPClassifier(alpha=1e-05, hidden_layer_sizes=(5, 2), random_state=1, solver='lbfgs')
 
     #Fitting the training data to the network
     classifier.fit(x_train, y_train)
