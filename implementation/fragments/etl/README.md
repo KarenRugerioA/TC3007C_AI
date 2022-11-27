@@ -1,17 +1,4 @@
-# **Preparación de los datos | ETL**
-
-_Autores:_
-
-- _Myroslava Sánchez Andrade A01730712_
-- _Karen Rugerio Armenta A01733228_
-- _José Antonio Bobadilla García A01734433_
-- _Alejandro Castro Reus A01731065_
-
-_Fecha de creación: 01/10/2022_
-
-_Última modificación: 27/10/2022_
-
----
+# **Preparación de los datos**
 
 ## **Extracción**
 
@@ -26,10 +13,6 @@ Antes de realizar cualquier tipo de procesamiento de los datos, estos primero fu
 #### **_Herramientas y tecnologías utilizadas_**
 
 Como tecnología principal, se hizo uso de Python, utilizando las librerías de Pandas, Numpy y Scikit-Learn, se optó por la utilización de estas tecnologías debido a las especificaciones del socio formador, quién aseguró que no se contaría con sets de datos de tipo Big Data y que optó por una ejecución rápida. La razón por la cual no se decidió usar Pyspark es porque ésta herramienta es mayormente utilizada para procesar grandes volúmenes de datos y ayudan a analizar diferentes tipos de datos y no es lo que se trabajará en este reto.
-
-#### **_Modelo de almacenamiento de datos_**
-
-El socio formador no desea hacer uso de tecnologías tales como cómputo en la nube o servidores propios. Las especificaciones incluyen el uso del programa en una computadora perteneciente a la empresa y que pueda ser ejecutado de manera local. Es por ello que como almacenamiento se realizó un archivo con el set de datos limpio y listo para ser procesado. Este archivo es de tipo .csv y está dividido en 3 sets de datos para implementar un k-fold cross validation.
 
 #### **_Big Data_**
 
