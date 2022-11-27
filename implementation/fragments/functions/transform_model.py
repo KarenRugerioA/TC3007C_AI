@@ -176,6 +176,12 @@ def transform_df_model(df, target_column_name, original_name_dataset):
     # Shuffling the dataset to avoid any pre-order
     df = df.sample(frac = 1).reset_index(drop = True)
 
+    # Changing the target column to numerical
+    le = preprocessing.LabelEncoder()
+    le.fit(df[target_column_name])
+    df[target_column_name] = le.transform(df[target_column_name])
+    dump(le, f'./fragments/joblibs/{original_name_dataset}/etl/encoder_target.joblib')
+
     # Test dataset
     no_rows_test = int((df.shape[0]+outliers.shape[0])*0.3)
     test = outliers
