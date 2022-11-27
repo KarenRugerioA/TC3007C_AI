@@ -210,5 +210,4 @@ def transform_df_model(df, target_column_name, original_name_dataset):
     x_train.to_csv(f'../data/{original_name_dataset}/train/x_train.csv', index=False)
     y_train.to_csv(f'../data/{original_name_dataset}/train/y_train.csv', index=False)
 
-    train.to_csv(f'../data/{original_name_dataset}/original_train.csv', index=False)
-    df.to_csv(f'../data/{original_name_dataset}/full_transformed_data.csv', index=False)
+    train.to_csv(f'../data/{original_name_dataset}/train/original_train.csv', index=False)
