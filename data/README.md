@@ -1,5 +1,7 @@
 # **Datos**
 
+---
+
 ## **Almacenamiento de los datos**
 
 Dados los requerimientos del socio formador, en los cuales se especifica que el sistema debe poder ser utilizado de forma local en una computadora de gama media, los datos fueron almacenados de forma local como archivos .csv.
