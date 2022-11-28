@@ -8,9 +8,14 @@ from sklearn.experimental import enable_iterative_imputer
 from category_encoders import OrdinalEncoder
 from joblib import dump
 from imblearn.over_sampling import SMOTE
+import warnings
 
 # Function that transforms the dataset **for the modelling**
-def transform_df_model(df, target_column_name, original_name_dataset):
+def transform_df_model(original_name_dataset, target_column_name):
+    
+    warnings.filterwarnings("ignore")
+
+    df = pd.read_csv(f'../data/{original_name_dataset}/{original_name_dataset}.csv')
 
      # Calculating the total cells per client (rows per client times the columns)
     cells_per_client = len(df.columns)
