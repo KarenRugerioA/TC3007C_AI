@@ -8,9 +8,14 @@ from sklearn.experimental import enable_iterative_imputer
 from category_encoders import OrdinalEncoder
 from joblib import dump
 from imblearn.over_sampling import SMOTE
+import warnings
 
 # Function that transforms the dataset **for the modelling**
-def transform_df_model(df, target_column_name, original_name_dataset):
+def transform_df_model(original_name_dataset, target_column_name):
+    
+    warnings.filterwarnings("ignore")
+
+    df = pd.read_csv(f'../data/{original_name_dataset}/{original_name_dataset}.csv')
 
      # Calculating the total cells per client (rows per client times the columns)
     cells_per_client = len(df.columns)
@@ -48,7 +53,7 @@ def transform_df_model(df, target_column_name, original_name_dataset):
     # Storing the name of columns that are full of unique values (id)
     drop_columns = no_unique_values[no_unique_values == df.shape[0]]
     drop_columns = drop_columns.dropna()
-    drop_column_names.append(drop_columns.index[0])
+    drop_column_names.extend(drop_columns.index.tolist())
     
     # Calculating the percentiles of each column
     data_description = df.describe()
@@ -68,7 +73,9 @@ def transform_df_model(df, target_column_name, original_name_dataset):
     # Removing the target from the columns to drop
     y = target_column_name
     if y in drop_column_names:
-        drop_column_names.remove(y)    
+        drop_column_names.remove(y)
+    
+    drop_column_names = list(set(drop_column_names))
 
     # Dropping the columns to drop
     df = df.drop(drop_column_names, axis=1)
@@ -176,6 +183,12 @@ def transform_df_model(df, target_column_name, original_name_dataset):
     # Shuffling the dataset to avoid any pre-order
     df = df.sample(frac = 1).reset_index(drop = True)
 
+    # Changing the target column to numerical
+    le = preprocessing.LabelEncoder()
+    le.fit(df[target_column_name])
+    df[target_column_name] = le.transform(df[target_column_name])
+    dump(le, f'./fragments/joblibs/{original_name_dataset}/etl/encoder_target.joblib')
+
     # Test dataset
     no_rows_test = int((df.shape[0]+outliers.shape[0])*0.3)
     test = outliers
@@ -204,5 +217,5 @@ def transform_df_model(df, target_column_name, original_name_dataset):
     x_train.to_csv(f'../data/{original_name_dataset}/train/x_train.csv', index=False)
     y_train.to_csv(f'../data/{original_name_dataset}/train/y_train.csv', index=False)
 
-    train.to_csv(f'../data/{original_name_dataset}/original_train.csv', index=False)
-    df.to_csv(f'../data/{original_name_dataset}/full_transformed_data.csv', index=False)
+    train.to_csv(f'../data/{original_name_dataset}/train/original_train.csv', index=False)
+    df.to_csv(f'../data/{original_name_dataset}/fully_transformed.csv', index=False)
