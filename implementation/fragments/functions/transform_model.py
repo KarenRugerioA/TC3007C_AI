@@ -53,7 +53,7 @@ def transform_df_model(original_name_dataset, target_column_name):
     # Storing the name of columns that are full of unique values (id)
     drop_columns = no_unique_values[no_unique_values == df.shape[0]]
     drop_columns = drop_columns.dropna()
-    drop_column_names.append(drop_columns.index[0])
+    drop_column_names.extend(drop_columns.index.tolist())
     
     # Calculating the percentiles of each column
     data_description = df.describe()
@@ -73,7 +73,9 @@ def transform_df_model(original_name_dataset, target_column_name):
     # Removing the target from the columns to drop
     y = target_column_name
     if y in drop_column_names:
-        drop_column_names.remove(y)    
+        drop_column_names.remove(y)
+    
+    drop_column_names = list(set(drop_column_names))
 
     # Dropping the columns to drop
     df = df.drop(drop_column_names, axis=1)
@@ -216,3 +218,4 @@ def transform_df_model(original_name_dataset, target_column_name):
     y_train.to_csv(f'../data/{original_name_dataset}/train/y_train.csv', index=False)
 
     train.to_csv(f'../data/{original_name_dataset}/train/original_train.csv', index=False)
+    df.to_csv(f'../data/{original_name_dataset}/fully_transformed.csv', index=False)
