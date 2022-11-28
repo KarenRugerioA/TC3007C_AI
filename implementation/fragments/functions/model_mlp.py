@@ -146,4 +146,4 @@ def train_mlp(target_column_name, original_name_dataset, smote):
         dump(classifier, f"./fragments/joblibs/{original_name_dataset}/model/mlp/mlp_model.joblib")
 
     # Returning the results of the training model
-    return model_accuracy, confussion_matrix, mlp_results
+    return confussion_matrix, mlp_results
