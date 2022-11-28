@@ -4,9 +4,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import confusion_matrix
-from sklearn.model_selection import KFold
 from joblib import dump
 from sklearn.model_selection import cross_validate
+from sklearn.metrics import mean_squared_error
+from sklearn.metrics import accuracy_score
 import warnings
 
 
@@ -43,6 +44,8 @@ def train_mlp(target_column_name, original_name_dataset, smote):
         diagonal_sum = confusion_matrix.trace()
         sum_of_all_elements = confusion_matrix.sum()
         return diagonal_sum / sum_of_all_elements
+    
+
 
     #Evaluataion of the predictions against the actual observations in y_val
     cm = confusion_matrix(y_pred, y_test)
@@ -112,6 +115,29 @@ def train_mlp(target_column_name, original_name_dataset, smote):
                 "Accuracy scores in 3 Folds",
                 mlp_results["Training Accuracy scores"],
                 mlp_results["Validation Accuracy scores"])
+
+    # Calculatin the MSE and accuracy in the training and test
+
+    # Train
+    y_train_predict = classifier.predict(x_train)
+    y_train_true = y_train
+    # MSE
+    mse_train = mean_squared_error(y_train_true, y_train_predict)
+    print(f'MSE Train: {mse_train}')
+    # Accuracy
+    acc_train = accuracy_score(y_train_true, y_train_predict, normalize=True)
+    print(f'Accuracy Train: {acc_train}')
+
+    # Test
+    y_test_predict = classifier.predict(x_test)
+    y_test_true = y_test
+    # MSE
+    mse_test = mean_squared_error(y_test_true, y_test_predict)
+    print(f'MSE Test: {mse_test}')
+    # Accuracy
+    acc_test = accuracy_score(y_test_true, y_test_predict, normalize=True)
+    print(f'Accuracy Test: {acc_test}')
+
 
     # Storing the model
     if smote:
