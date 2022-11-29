@@ -2,17 +2,15 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.neural_network import MLPClassifier
-from sklearn.metrics import confusion_matrix
-from joblib import dump
+from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import cross_validate
+from sklearn.metrics import confusion_matrix
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import accuracy_score
+from joblib import dump
 import warnings
 
-
-# Function that trains the model mlp
-def train_mlp(target_column_name, original_name_dataset, smote):
+def train_logistic_regression(target_column_name, original_name_dataset, smote):
 
     warnings.filterwarnings("ignore")
 
@@ -28,16 +26,13 @@ def train_mlp(target_column_name, original_name_dataset, smote):
         train = pd.read_csv(f'../data/{original_name_dataset}/train/original_train.csv')
         x_train = train.drop([target_column_name], axis=1)
         y_train = pd.DataFrame(train[target_column_name])
+    
+    logreg = LogisticRegression(random_state=100)
 
-    #Initializing the MLPClassifier hyperparameters
-    classifier = MLPClassifier(alpha=1e-05, hidden_layer_sizes=(7, 5, 3), random_state=1, solver='lbfgs')
+    # fit the model with data
+    logreg.fit(x_train, y_train)
 
-    #Fitting the training data to the network
-    classifier.fit(x_train, y_train)
-
-    #Predicting y for X_val
-    y_pred_prob = classifier.predict_proba(x_test)
-    y_pred = classifier.predict(x_test)
+    y_logregpred = logreg.predict(x_test)
 
     #Creating a confusion matrix to help determinate accuracy wtih classification model
     def accuracy(confusion_matrix):
@@ -45,10 +40,8 @@ def train_mlp(target_column_name, original_name_dataset, smote):
         sum_of_all_elements = confusion_matrix.sum()
         return diagonal_sum / sum_of_all_elements
     
-
-
     #Evaluataion of the predictions against the actual observations in y_val
-    cm = confusion_matrix(y_pred, y_test)
+    cm = confusion_matrix(y_logregpred, y_test)
 
     #Storing the accuracy
     acc = round(accuracy(cm),2)
@@ -102,24 +95,23 @@ def train_mlp(target_column_name, original_name_dataset, smote):
         plt.ylabel(y_label, fontsize=14)
         plt.legend()
         plt.grid(True)
-        plt.savefig(f'./fragments/joblibs/{original_name_dataset}/model/mlp/k_cross_plot.png')
+        plt.savefig(f'./fragments/joblibs/{original_name_dataset}/model/benchmark/k_cross_plot.png')
         plt.show()
-
-    mlp_results = cross_validation(classifier, x_train, y_train)
+    
+    logistic_regression_results = cross_validation(logreg, x_train, y_train)
 
     # Plot Accuracy Result
-    print('Printing the K-fold Cross Validation')
-    model_name = "MLP"
+    model_name = "Logisitc regression"
     plot_result(model_name,
                 "Accuracy",
                 "Accuracy scores in 3 Folds",
-                mlp_results["Training Accuracy scores"],
-                mlp_results["Validation Accuracy scores"])
+                logistic_regression_results["Training Accuracy scores"],
+                logistic_regression_results["Validation Accuracy scores"])
 
     # Calculatin the MSE and accuracy in the training and test
 
     # Train
-    y_train_predict = classifier.predict(x_train)
+    y_train_predict = logreg.predict(x_train)
     y_train_true = y_train
     # MSE
     mse_train = mean_squared_error(y_train_true, y_train_predict)
@@ -129,7 +121,7 @@ def train_mlp(target_column_name, original_name_dataset, smote):
     print(f'Accuracy Train: {acc_train}')
 
     # Test
-    y_test_predict = classifier.predict(x_test)
+    y_test_predict = logreg.predict(x_test)
     y_test_true = y_test
     # MSE
     mse_test = mean_squared_error(y_test_true, y_test_predict)
@@ -138,12 +130,11 @@ def train_mlp(target_column_name, original_name_dataset, smote):
     acc_test = accuracy_score(y_test_true, y_test_predict, normalize=True)
     print(f'Accuracy Test: {acc_test}')
 
-
     # Storing the model
     if smote:
-        dump(classifier, f"./fragments/joblibs/{original_name_dataset}/model/mlp/mlp_model_smote.joblib")
+        dump(logreg, f"./fragments/joblibs/{original_name_dataset}/model/benchmark/logistic_regression_model_smote.joblib")
     else:    
-        dump(classifier, f"./fragments/joblibs/{original_name_dataset}/model/mlp/mlp_model.joblib")
+        dump(logreg, f"./fragments/joblibs/{original_name_dataset}/model/benchmark/logistic_regression_model.joblib")
 
     # Returning the results of the training model
-    return confussion_matrix, mlp_results
+    return confussion_matrix, logistic_regression_results
