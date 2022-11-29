@@ -30,7 +30,7 @@ def train_mlp(target_column_name, original_name_dataset, smote):
         y_train = pd.DataFrame(train[target_column_name])
 
     #Initializing the MLPClassifier hyperparameters
-    classifier = MLPClassifier(alpha=1e-05, hidden_layer_sizes=(5, 2), random_state=1, solver='lbfgs')
+    classifier = MLPClassifier(alpha=1e-05, hidden_layer_sizes=(7, 5, 3), random_state=1, solver='lbfgs')
 
     #Fitting the training data to the network
     classifier.fit(x_train, y_train)
