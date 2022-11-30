@@ -1,9 +1,15 @@
 import pandas as pd
 from joblib import load
+import warnings
+
 
 
 # Function that transforms the dataset **for the prediction**
-def transform_df_predict(df, original_name_dataset):
+def transform_df_predict(original_name_dataset):
+
+    warnings.filterwarnings("ignore")
+
+    df = pd.read_csv(f'../data/{original_name_dataset}/{original_name_dataset}_new.csv')
 
     # Loading the correspondent joblibs for the transformation
     categorical_columns = load(f'./fragments/joblibs/{original_name_dataset}/etl/categorical_columns.joblib')
@@ -39,4 +45,4 @@ def transform_df_predict(df, original_name_dataset):
     # Updating the main variable
     df[list(z_score.columns)] = z_score
 
-    df.to_csv(f'../data/{original_name_dataset}/transformed_new.csv', index=False)
+    df.to_csv(f'../data/{original_name_dataset}/{original_name_dataset}_new_transformed.csv', index=False)
