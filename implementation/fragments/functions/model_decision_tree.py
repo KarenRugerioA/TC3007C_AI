@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import cross_validate
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import confusion_matrix
-from joblib import dump
+from joblib import dump, load
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import accuracy_score
 import warnings
@@ -13,12 +13,17 @@ import warnings
 def train_decision_tree(target_column_name, original_name_dataset, smote):
 
     warnings.filterwarnings("ignore")
+    
+    error_smote = load(f'./fragments/joblibs/{original_name_dataset}/etl/error_smote.joblib')
+
+    if smote and error_smote:
+        print('There are not enough instances from a class to use the SMOTE algorithm, training without smote')
 
     # Obtaining the train and test dataset
     x_test = pd.read_csv(f'../data/{original_name_dataset}/test/x_test.csv')
     y_test = pd.read_csv(f'../data/{original_name_dataset}/test/y_test.csv')    
 
-    if smote:
+    if smote and not error_smote:
         x_train = pd.read_csv(f'../data/{original_name_dataset}/train/x_train.csv')
         y_train = pd.read_csv(f'../data/{original_name_dataset}/train/y_train.csv')
     else:    
