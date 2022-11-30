@@ -200,22 +200,30 @@ def transform_df_model(original_name_dataset, target_column_name):
     train = train.drop(['index'], axis=1)
 
     # Using smote algorithm for over-sampling
+    error_smote = False
     sm = SMOTE(random_state = 2)
-    x_train, y_train = sm.fit_resample(train.drop([y], axis=1), train[y])
+    try:
+        x_train, y_train = sm.fit_resample(train.drop([y], axis=1), train[y])
+    except:
+        error_smote = True
 
     # Dividing the target and labels
     y_test = pd.DataFrame(test[y])
     x_test = test.drop([y], axis=1)
 
     # Reestructuring the train dataset
-    y_train = pd.DataFrame(y_train)
+    if not error_smote:
+        y_train = pd.DataFrame(y_train)
 
     # Exporting the test and train of the dataframes
     x_test.to_csv(f'../data/{original_name_dataset}/test/x_test.csv', index=False)
     y_test.to_csv(f'../data/{original_name_dataset}/test/y_test.csv', index=False)
 
-    x_train.to_csv(f'../data/{original_name_dataset}/train/x_train.csv', index=False)
-    y_train.to_csv(f'../data/{original_name_dataset}/train/y_train.csv', index=False)
+    if not error_smote:
+        x_train.to_csv(f'../data/{original_name_dataset}/train/x_train.csv', index=False)
+        y_train.to_csv(f'../data/{original_name_dataset}/train/y_train.csv', index=False)
 
     train.to_csv(f'../data/{original_name_dataset}/train/original_train.csv', index=False)
     df.to_csv(f'../data/{original_name_dataset}/fully_transformed.csv', index=False)
+
+    dump(error_smote, f'./fragments/joblibs/{original_name_dataset}/etl/error_smote.joblib')
