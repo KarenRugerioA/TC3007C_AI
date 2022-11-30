@@ -41,7 +41,7 @@ def train_random_forest(target_column_name, original_name_dataset, smote):
         return diagonal_sum / sum_of_all_elements
     
     #Evaluataion of the predictions against the actual observations in y_val
-    cm = confusion_matrix(y_logregpred, y_test)
+    cm = confusion_matrix(y_pred, y_test)
 
     #Storing the accuracy
     acc = round(accuracy(cm),2)
