@@ -16,9 +16,9 @@ Los archivos de: configuración de almacenamiento, el etl, los modelos y la tran
 
 ### **Definición de variables**
 
-Ya que se trata de una implementación generalizada, todas las celdas con el título '_THESE VARIABLES MUST BE GIVEN BY THE USER, PLEASE EDIT TO USE_' deberán ser editas por el usuario. A continuación se enlistan las variables a definir por el usuario:
+Ya que se trata de una implementación generalizada, todas las celdas con el título '_THESE VARIABLES MUST BE GIVEN BY THE USER, PLEASE EDIT TO USE_' deberán ser editadas por el usuario. A continuación se enlistan las variables a definir por el usuario:
 
-- '_dataset_path_': ubicación del archivo (_path_) a modelar. Esta ubicación no se debe encontrar en un directorio en específico. Seguir el formato del ejemplo: duplicado del caracter '\' y con terminación del nombre del archivo. El archivo **debe** ser **CSV**.
+- '_dataset_path_': ubicación del archivo (_path_) a modelar. Esta ubicación no se debe encontrar en un directorio en específico. Seguir el formato del ejemplo: duplicado del caracter '\\' y con terminación del nombre del archivo. El archivo **debe** ser **CSV**.
 
 - '_original_name_dataset_': nombre del archivo a modelar (sin la extensión '.csv').
 
