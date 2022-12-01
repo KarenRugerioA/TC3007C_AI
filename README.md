@@ -29,6 +29,10 @@ Uno de los requerimientos del socio formador fue que el sistema sea capaz de pre
 
 **Guía del usuario:** https://github.com/myrosandrade89/TC3007C_AI/tree/main/implementation
 
+Página WEB:
+- Link al repositorio Backend: https://github.com/AlexReusC/server-naatik
+- Link al repositorio Frontend: https://github.com/AntonioBobadilla/website-naatik
+
 ---
 
 ## **Estructura del repositorio**
