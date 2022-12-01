@@ -54,8 +54,18 @@ def train_decision_tree(target_column_name, original_name_dataset, smote):
     percentage = "{:.0%}".format(acc)
     model_accuracy = (f"Accuracy of Model: {percentage}")
 
-    # Confussion Matrix
+     # Confussion Matrix
     confussion_matrix = pd.DataFrame(cm)
+    dump(confussion_matrix, f"./fragments/joblibs/{original_name_dataset}/model/decission_tree/confusion_matrix.joblib")
+
+    predicted_true_positive_percentage = cm[1,1] / (cm[1,1] + cm[0,1])
+    predicted_true_negative_percentage = cm[0,0] / (cm[0,0] + cm[1,0])
+
+    # Saving the general aspects in a df
+    d = {'predicted_true_positive_percentage': [predicted_true_positive_percentage], 'predicted_true_negative_percentage': [predicted_true_negative_percentage]}
+    true_predicted_percentage = pd.DataFrame(data=d)
+    dump(true_predicted_percentage, f"./fragments/joblibs/{original_name_dataset}/model/decission_tree/true_predicted_percentage.joblib")
+
 
     # K-Fold Cross-Validation
     def cross_validation(model, _X, _y, _cv=3):

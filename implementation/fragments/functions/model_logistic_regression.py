@@ -44,9 +44,27 @@ def train_logistic_regression(target_column_name, original_name_dataset, smote):
         diagonal_sum = confusion_matrix.trace()
         sum_of_all_elements = confusion_matrix.sum()
         return diagonal_sum / sum_of_all_elements
-    
+
     #Evaluataion of the predictions against the actual observations in y_val
-    cm = confusion_matrix(y_logregpred, y_test)
+    cm = confusion_matrix(y_test, y_logregpred)
+
+    #Storing the accuracy
+    acc = round(accuracy(cm),2)
+    percentage = "{:.0%}".format(acc)
+    model_accuracy = (f"Accuracy of Model: {percentage}")
+    
+    # Confussion Matrix
+    confussion_matrix = pd.DataFrame(cm)
+    dump(confussion_matrix, f"./fragments/joblibs/{original_name_dataset}/model/benchmark/confusion_matrix.joblib")
+
+
+    predicted_true_positive_percentage = cm[1,1] / (cm[1,1] + cm[0,1])
+    predicted_true_negative_percentage = cm[0,0] / (cm[0,0] + cm[1,0])
+
+    # Saving the general aspects in a df
+    d = {'predicted_true_positive_percentage': [predicted_true_positive_percentage], 'predicted_true_negative_percentage': [predicted_true_negative_percentage]}
+    true_predicted_percentage = pd.DataFrame(data=d)
+    dump(true_predicted_percentage, f"./fragments/joblibs/{original_name_dataset}/model/benchmark/true_predicted_percentage.joblib")
 
     #Storing the accuracy
     acc = round(accuracy(cm),2)
