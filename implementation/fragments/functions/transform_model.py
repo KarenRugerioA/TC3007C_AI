@@ -16,7 +16,11 @@ def transform_df_model(original_name_dataset, target_column_name):
     warnings.filterwarnings("ignore")
 
     df = pd.read_csv(f'../data/{original_name_dataset}/{original_name_dataset}.csv')
+    
+    # Defining the target column
+    y = target_column_name
 
+    target_column_original = df[y]
      # Calculating the total cells per client (rows per client times the columns)
     cells_per_client = len(df.columns)
 
@@ -71,7 +75,6 @@ def transform_df_model(original_name_dataset, target_column_name):
     drop_column_names.extend(list(percentiles.columns))
     
     # Removing the target from the columns to drop
-    y = target_column_name
     if y in drop_column_names:
         drop_column_names.remove(y)
     
@@ -206,6 +209,18 @@ def transform_df_model(original_name_dataset, target_column_name):
         x_train, y_train = sm.fit_resample(train.drop([y], axis=1), train[y])
     except:
         error_smote = True
+
+    # Calculating the general aspects of the dataset
+    target_column_original = le.transform(target_column_original)
+    number_churn = np.count_nonzero(target_column_original == 1)
+    number_no_churn = np.count_nonzero(target_column_original == 0)
+    percentage_churn = (number_churn * 100) / target_column_original.size
+    percentage_no_churn = (number_no_churn * 100) / target_column_original.size
+
+    # Saving the general aspects in a df
+    d = {'total':[target_column_original.size], 'number_churn': [number_churn], 'number_no_churn': [number_no_churn], 'percentage_churn': [percentage_churn], 'percentage_no_churn': [percentage_no_churn]}
+    general_aspects_original = pd.DataFrame(data=d)
+    dump(general_aspects_original, f'./fragments/joblibs/{original_name_dataset}/etl/general_aspects_original.joblib')
 
     # Dividing the target and labels
     y_test = pd.DataFrame(test[y])
