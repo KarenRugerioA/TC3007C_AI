@@ -1,6 +1,6 @@
 BSD 3-Clause License
 
-Copyright (c) 2022, myrosandrade89
+Copyright (c) 2022, Karen Rugerio (KarenRugerioA); Myroslava Sanchez(myrosandrade89); Alejandro Castro (AlexReusC); Jose Antonio Bobadilla (AntonioBobadilla)
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
