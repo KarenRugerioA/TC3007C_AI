@@ -48,6 +48,19 @@ def train_random_forest(target_column_name, original_name_dataset, smote):
     #Evaluataion of the predictions against the actual observations in y_val
     cm = confusion_matrix(y_pred, y_test)
 
+     # Confussion Matrix
+    confussion_matrix = pd.DataFrame(cm)
+    dump(confussion_matrix, f"./fragments/joblibs/{original_name_dataset}/model/random_forest/confusion_matrix.joblib")
+
+
+    predicted_true_positive_percentage = cm[1,1] / (cm[1,1] + cm[0,1])
+    predicted_true_negative_percentage = cm[0,0] / (cm[0,0] + cm[1,0])
+
+    # Saving the general aspects in a df
+    d = {'predicted_true_positive_percentage': [predicted_true_positive_percentage], 'predicted_true_negative_percentage': [predicted_true_negative_percentage]}
+    true_predicted_percentage = pd.DataFrame(data=d)
+    dump(true_predicted_percentage, f"./fragments/joblibs/{original_name_dataset}/model/random_forest/true_predicted_percentage.joblib")
+
     #Storing the accuracy
     acc = round(accuracy(cm),2)
     percentage = "{:.0%}".format(acc)
