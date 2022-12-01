@@ -1,21 +1,51 @@
 # **Implementación principal**
 
-El archivo **['main.ipynb'](https://github.com/myrosandrade89/TC3007C_AI/blob/develop/implementation/main.ipynb)** contiene el flujo principal de la aplicación. A continuación se mostrará la justificación de la toma de decisiones y la explicación del flujo.
+El archivo **['main.ipynb'](https://github.com/myrosandrade89/TC3007C_AI/blob/develop/implementation/main.ipynb)** contiene el flujo principal del sistema; a continuación se expondrá esta.
+
+**Es muy importante resaltar que se trata de una implementación generalizada, por lo que la precisión de las predicciones puede variar. Además, también se buscó realizar una implementación que reciba cualquier conjunto de datos, pero se recomienda hacer un análisis de los datos antes de introducirlo al modelo ya que formatos no esperados pueden provocar errores en la ejecución.**
+
+Se cuenta con una lista de requerimientos para correr el sistema en el docuemnto 'requirements.txt'
 
 ---
 
-## **Análisis del problema**
+### **Importado de funciones**
 
-- #### **_Uso de Big Data_**
+Los archivos de: configuración de almacenamiento, el etl, los modelos y la transformación para la predicción fueron importados como funciones de python.
 
-  Realizando un análisis de los datos nos dimos cuenta que la cantidad de datos es mínima para ser considerada big data, ya que para que se considere big data, los datos tienen que ser tan grandes, rápidos o complejos que es difícil o imposible procesarlos con los métodos tradicionales. Los datos actuales no cuentan con las 5Vs para ser considerado un proyecto de esta magnitud.
+---
 
-  En primer lugar, nos encontramos con un set de archivos que no tiene un gran Volumen, ya que cuenta con poco más de un millón de instancias. Así mismo no se cuenta con Velocidad, es decir, no se adquieren nuevos datos en poco tiempo. De igual manera no se tiene Variedad, ya que solamente contamos con datos de tipo float, integer y object. El set de datos fue adquirido de Kaggle, pero no hay una forma de saber qué tan Veraz es. Finalmente se considera que el Valor de las variables será definido una vez realizado el modelo.
+### **Definición de variables**
 
-  Así mismo, los socios formadores comentan que en ningún momento consideran trabajar con archivos que cumplan las condiciones de Big Data y como se trata de un set de datos cuyo contexto es el análisis de churn en una empresa, no se trabajará la solución como Big Data. Así mismo, los socios formadores no cuentan con servidores o herramientas que permitan el procesamiento de Big Data, ya que todo se trabajará en un equipo de la empresa de manera local. Debido a esta limitante, tampoco se puede emplear una solución que requiera de un alto poder computacional de procesamiento.
+Ya que se trata de una implementación generalizada, todas las celdas con el título '_THESE VARIABLES MUST BE GIVEN BY THE USER, PLEASE EDIT TO USE_' deberán ser editas por el usuario. A continuación se enlistan las variables a definir por el usuario:
 
-- #### **Herramientas y tecnologías utilizadas**
+- '_dataset_path_': ubicación del archivo (_path_) a modelar. Esta ubicación no se debe encontrar en un directorio en específico. Seguir el formato del ejemplo: duplicado del caracter '\' y con terminación del nombre del archivo. El archivo **debe** ser **CSV**.
 
-  Como tecnología principal se hizo uso de Python, utilizando las librerías de Pandas que nos ayudará a trabajar con los datos en formato de Dataset, lo que permite que sea más fácil de manipular, Numpy que nos ayudará a realizar operaciones matriciales con los data frames y Scikit-Learn cuya API contiene diversas herramientas que ayudan a realizar el aprendizaje automático, incluyendo clasificación, regresión, y reducción de dimensionalidad.
-  <br>Se optó por la utilización de estas tecnologías debido a las especificaciones del socio formador, quién aseguró que no se contaría con sets de datos de tipo Big Data y que optó por una ejecución rápida. La razón por la cual no se decidió usar Pyspark es porque ésta herramienta es mayormente utilizada para procesar grandes volúmenes de datos y diferentes tipos de datos y no es lo que se trabajará en este reto.
-  <br>Por otro lado, para la implementación de modelos más robustos (random forest y convolutional neural networks) se utilizó la herramienta TensorFlow, pues esta herramienta nos permite hacer uso de la GPU para un procesamiento más rápido.
+- '_original_name_dataset_': nombre del archivo a modelar (sin la extensión '.csv').
+
+- '_target_column_name_': nombre de la columna a predecir (case sensitive).
+
+- '_smote_': booleano que define si los modelos utilizarán el algoritmo SMOTE para balancear la clase a predecir. En caso de que **no se pueda aplicar smote** por un alto desbalance en el conjunto de datos, los modelos imprimirán el mensaje 'There are not enough instances from a class to use the SMOTE algorithm, training without smote'.
+
+---
+
+### **Configuración del almacenamiento**
+
+Esta función recibe la ubicación del archivo y el nombre del archivo. Una vez dada la ubicación del archivo que se desea modelar, se asegura de que no exista ninguna archivo o carpeta con este mismo nombre por lo que se elimina cualquier carpeta o archivo ya existente de este de la carpeta 'data' y de la carpeta 'joblibs'. Después se crean las carpetas correspondientes que contendrán los modelos, archivos de entrenamientos, codificadores, etc.
+
+---
+
+### **Preparación de los datos**
+
+Esta función recibe el nombre del archivo y el nombre de la columna a predecir. Realizará transformaciones **generalizadas** y guardará estas en archivos con extensión '.joblib', además de los archivos para el entrenamientos y el test.
+
+En el archivo se muestra un DataFrame que expone el total de los datos y el porcentaje de churn y no churn. Esta matriz fue generada de uno de los joblibs que generó el etl.
+
+---
+
+### **Entrenamiento del modelo**
+
+Para los modelos mlp, decission_tree, logistic_regression y random_forest, se tiene la siguiente implementación:
+
+La función recibe como parámetros el nombre de la columna a predecir, el nombre del conjunto de datos a modelar y la variable smote que define si se utilizará o no el algoritmo SMOTE; esta función regresa una matriz de confusión y los resultados del modelo (string con el porcentaje). También se observa que se imprime la precisión del k-cross fold validation en una gráfica y la precisión del modelo en el entrenamiento y el test.
+
+Al llamar a la matriz de confusión, podemos notar el DataFrame como salida. También se importa una matriz que contiene los _true_predicted_percentage_ del modelo que fue generada en la función del modelo y guardada como joblib.
