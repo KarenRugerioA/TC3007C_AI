@@ -59,7 +59,10 @@ Se recomienda que antes de hacer uso del sistema, se lea la guía para el usuari
 
 ## LICENSE
 
-This software is open source under the license [BSD 3-Clause](https://github.com/myrosandrade89/TC3007C_AI/blob/develop/LICENSE.md). Preserve the copy rights to the authors and contributors of this repo.
+This software is open source under the license [BSD 3-Clause](https://github.com/myrosandrade89/TC3007C_AI/blob/develop/LICENSE.md). Preserve the copy rights to the authors and contributors of this repo: Karen Rugerio ([KarenRugerioA](https://github.com/KarenRugerioA)); Myroslava Sanchez([myrosandrade89](https://github.com/myrosandrade89)); Alejandro Castro ([AlexReusC](https://github.com/AlexReusC)); Jose Antonio Bobadilla ([AntonioBobadilla](https://github.com/AntonioBobadilla))
 
-Any use of this software must include the names of the authors:
-Karen Rugerio ([KarenRugerioA](https://github.com/KarenRugerioA)); Myroslava Sanchez([myrosandrade89](https://github.com/myrosandrade89)); Alejandro Castro ([AlexReusC](https://github.com/AlexReusC)); Jose Antonio Bobadilla ([AntonioBobadilla](https://github.com/AntonioBobadilla));
+If you plan to copy, modify, or distribute any of this code, you must include:
+
+- The full text of the license
+- The original copyright notice
+
