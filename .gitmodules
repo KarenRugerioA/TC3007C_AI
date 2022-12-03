@@ -1,0 +1,6 @@
+[submodule "server-naatik"]
+	path = server-naatik
+	url = https://github.com/AlexReusC/server-naatik
+[submodule "website-naatik"]
+	path = website-naatik
+	url = https://github.com/AntonioBobadilla/website-naatik
