@@ -2,7 +2,7 @@
 
 ---
 
-**Nombre del proyecto:** American Express - Default Prediction
+**Nombre del proyecto:** Churn Identification and Customer Profiling
 
 **Institución:** Instituto Tecnológico y de Estudios Superiores de Monterrey, Campus Puebla
 
